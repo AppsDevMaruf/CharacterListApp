@@ -6,6 +6,7 @@ import androidx.databinding.BindingAdapter
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.maruf.characterlistapp.R
+import com.maruf.characterlistapp.utils.splitFullName
 import java.util.Locale
 
 @BindingAdapter("loadImageFromUrl")
@@ -15,13 +16,6 @@ fun ShapeableImageView.loadImageFromUrl(imageUrl: String) {
         placeholder(R.drawable.ic_error_placeholder)
         error(R.drawable.ic_error_placeholder)
     }
-}
-
-fun String.splitFullName(): Pair<String, String> {
-    val fullName = this.lowercase(Locale.ROOT).split(" ")
-    val firstName = fullName.first()
-    val lastName = fullName.last()
-    return Pair(firstName.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }, lastName.capitalize())
 }
 
 @BindingAdapter("setFirstName")

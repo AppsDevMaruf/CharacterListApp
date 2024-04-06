@@ -14,8 +14,7 @@
         android:id="@+id/recipesRowLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp">
+       android:layout_margin="4dp">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/row_cardView"
@@ -87,7 +86,7 @@
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:maxLines="3"
-                    android:text="@{character.actor}"
+                    android:text="@{character.dateOfBirth}"
                     android:textColor="@color/darkGray"
                     app:layout_constraintEnd_toEndOf="@+id/last_name_txt"
                     app:layout_constraintStart_toStartOf="@+id/last_name_txt"

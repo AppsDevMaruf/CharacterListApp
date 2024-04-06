@@ -10,28 +10,30 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.maruf.characterlistapp.R
 import com.maruf.characterlistapp.ui.adapters.CharacterAdapter
 import com.maruf.characterlistapp.databinding.FragmentHomeBinding
+import com.maruf.characterlistapp.model.CharacterModelItem
+import com.maruf.characterlistapp.ui.interfaces.SelectedCharacterDetails
 import com.maruf.characterlistapp.utils.Constants
 import com.maruf.characterlistapp.utils.NetworkResult
 import com.maruf.characterlistapp.ui.viewmodel.CharacterViewModel
+import com.maruf.characterlistapp.utils.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+class HomeFragment : BaseFragment<FragmentHomeBinding>(),SelectedCharacterDetails {
+
     private val characterViewModel by viewModels<CharacterViewModel>()
-    private val mAdapter by lazy { CharacterAdapter() }
+    private val mAdapter by lazy { CharacterAdapter(this) }
+    var bundle = Bundle()
+    override fun getFragmentView(): Int {
+        return R.layout.fragment_home
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+    override fun binObserver() {
         requestApiData()
-
-        return binding.root
     }
 
     private fun requestApiData() {
@@ -46,11 +48,6 @@ class HomeFragment : Fragment() {
                         mAdapter.updateList(it)
                     }
 
-                   /* Toast.makeText(
-                        requireContext(),
-                        "response.data  ${response.data?.results?.size}",
-                        Toast.LENGTH_SHORT
-                    ).show()*/
                 }
 
                 is NetworkResult.Error -> {
@@ -87,8 +84,10 @@ class HomeFragment : Fragment() {
         binding.errorTextView.visibility = View.GONE
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+    override fun selectedCharacter(character: CharacterModelItem) {
+        bundle.putParcelable(Constants.PARCEL_KEY, character) // Key, value
+        findNavController().navigate(R.id.action_homeFragment_to_detailsFragment, bundle)
     }
+
+
 }

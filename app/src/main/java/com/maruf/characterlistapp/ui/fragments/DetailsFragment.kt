@@ -1,22 +1,34 @@
 package com.maruf.characterlistapp.ui.fragments
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.annotation.SuppressLint
 import com.maruf.characterlistapp.R
+import com.maruf.characterlistapp.databinding.FragmentDetailsBinding
+import com.maruf.characterlistapp.model.CharacterModelItem
+import com.maruf.characterlistapp.utils.BaseFragment
+import com.maruf.characterlistapp.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment() {
+class DetailsFragment : BaseFragment<FragmentDetailsBinding>() {
 
+    override fun getFragmentView(): Int {
+        return R.layout.fragment_details
+    }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_details, container, false)
+    @SuppressLint("SetTextI18n")
+    override fun configUi() {
+        if (arguments != null) {
+            val character: CharacterModelItem =
+                requireArguments().getParcelable(Constants.PARCEL_KEY)!!
+            binding.detailsTextView.text =
+                        "${character.name}" +
+                        "\n${character.actor}\n" +
+                        "${character.dateOfBirth}\n" +
+                        "${character.hairColour}\n" +
+                        "${character.eyeColour}\n" +
+                        "${character.gender}\n" +
+                        "${character.house}\n" +
+                        "${character.hogwartsStudent}"
+        }
     }
 }

@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun requestApiData() {
-        Log.d("Online Api call", "readDatabase: ")
         characterViewModel.getCharacter()
         characterViewModel.charactersResponse.observe(viewLifecycleOwner) { response ->
             binding.progressBar.isGone = true
@@ -43,15 +42,15 @@ class HomeFragment : Fragment() {
                 is NetworkResult.Success -> {
                     binding.recyclerView.adapter = mAdapter
                     response.data?.let {
-                        Log.d("TAG", "requestApiData: ${it.results.size}")
-                        mAdapter.updateList(it.results)
+                        Log.d("TAG", "requestApiData: ${it.size}")
+                        mAdapter.updateList(it)
                     }
 
-                    Toast.makeText(
+                   /* Toast.makeText(
                         requireContext(),
                         "response.data  ${response.data?.results?.size}",
                         Toast.LENGTH_SHORT
-                    ).show()
+                    ).show()*/
                 }
 
                 is NetworkResult.Error -> {
@@ -61,6 +60,7 @@ class HomeFragment : Fragment() {
                     } else {
                         hideErrorMgs()
                     }
+                    Log.d("TAG", "getRecipesSafeCall: ${response.message}")
                     Toast.makeText(
                         requireContext(),
                         response.message.toString(),

@@ -8,10 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maruf.characterlistapp.databinding.RowCharacterItemBinding
 import com.maruf.characterlistapp.model.CharacterModelItem
 import com.maruf.characterlistapp.utils.DiffCallback
+import com.maruf.characterlistapp.utils.bindingAdapter.splitFullName
 
 class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.MyViewHolder>() {
     private var recipeList = emptyList<CharacterModelItem>()
-    fun updateList(list: MutableList<CharacterModelItem>) {
+    fun updateList(list: List<CharacterModelItem>) {
         val diffCallback = DiffCallback(recipeList, list)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         recipeList = list
@@ -33,6 +34,7 @@ class CharacterAdapter : RecyclerView.Adapter<CharacterAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val recipe = recipeList[position]
+        recipe.name?.splitFullName()
         holder.bind(recipe)
 
     }

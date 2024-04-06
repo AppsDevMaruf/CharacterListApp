@@ -1,6 +1,7 @@
 package com.maruf.characterlistapp.data
 
 import com.maruf.characterlistapp.data.network.CharactersApi
+import com.maruf.characterlistapp.model.CharacterModelItem
 import com.maruf.characterlistapp.model.CharactersModel
 import retrofit2.Response
 import javax.inject.Inject
@@ -8,7 +9,7 @@ import javax.inject.Inject
 class RemoteDataSource @Inject constructor(
     private val charactersApi: CharactersApi
 ) {
-    suspend fun getCharacters(): Response<CharactersModel> {
+    suspend fun getCharacters(): Response<List<CharacterModelItem>> {
         return charactersApi.getCharacters()
 
     }

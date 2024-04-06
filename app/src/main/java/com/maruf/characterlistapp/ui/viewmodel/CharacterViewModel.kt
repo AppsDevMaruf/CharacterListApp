@@ -2,12 +2,14 @@ package com.maruf.characterlistapp.ui.viewmodel
 
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maruf.characterlistapp.utils.NetworkResult
 import com.maruf.characterlistapp.utils.NetworkUtils
 import com.maruf.characterlistapp.data.Repository
+import com.maruf.characterlistapp.model.CharacterModelItem
 import com.maruf.characterlistapp.model.CharactersModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,7 +22,7 @@ class CharacterViewModel @Inject constructor(@ApplicationContext private val app
 
     
     /** RETROFIT */
-    val charactersResponse: MutableLiveData<NetworkResult<CharactersModel>?> = MutableLiveData()
+    val charactersResponse: MutableLiveData<NetworkResult<List<CharacterModelItem>>?> = MutableLiveData()
 
 
     fun getCharacter() = viewModelScope.launch {
@@ -35,8 +37,9 @@ class CharacterViewModel @Inject constructor(@ApplicationContext private val app
                 charactersResponse.value = handleCharacterResponse(response)
 
 
-            } catch (_: Exception) {
-                charactersResponse.value = NetworkResult.Error("Character not found.")
+            } catch (e: Exception) {
+                charactersResponse.value = NetworkResult.Error("${e.message}")
+
             }
 
         } else {
@@ -46,7 +49,7 @@ class CharacterViewModel @Inject constructor(@ApplicationContext private val app
     }
     
 
-    private fun handleCharacterResponse(response: Response<CharactersModel>): NetworkResult<CharactersModel> {
+    private fun handleCharacterResponse(response: Response<List<CharacterModelItem>>): NetworkResult<List<CharacterModelItem>> {
         when {
             response.message().toString().contains("timeout") -> {
                 return NetworkResult.Error("Timeout")
@@ -56,9 +59,9 @@ class CharacterViewModel @Inject constructor(@ApplicationContext private val app
                 return NetworkResult.Error("API Key Limited.")
             }
 
-            response.body()?.results.isNullOrEmpty() -> {
+          /*  response.body()?.results.isNullOrEmpty() -> {
                 return NetworkResult.Error("Character not found.")
-            }
+            }*/
 
             response.isSuccessful -> {
                 return NetworkResult.Success(response.body()!!)

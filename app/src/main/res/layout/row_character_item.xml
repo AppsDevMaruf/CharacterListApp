@@ -35,7 +35,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/white">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/profile_img"
                     android:layout_width="100dp"
                     android:padding="4dp"
@@ -58,7 +58,7 @@
                     android:ellipsize="end"
                     android:fontFamily="@font/actor"
                     android:maxLines="2"
-                    android:text="@{character.name}"
+                    setFirstName="@{character.name}"
                     android:textColor="@color/darker"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -71,10 +71,10 @@
                     android:id="@+id/last_name_txt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:maxLines="3"
-                    android:text="@{character.actor}"
+                    setLastName="@{character.name}"
                     android:textColor="@color/darkGray"
                     app:layout_constraintEnd_toEndOf="@+id/first_name_txt"
                     app:layout_constraintStart_toStartOf="@+id/first_name_txt"
@@ -84,7 +84,7 @@
                     android:id="@+id/phone_number_txt"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:text="@{character.actor}"
